@@ -1,10 +1,11 @@
 import TodoList from "./components/TodoList";
 import AddTodo from "./components/AddTodo";
+import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <h1>Todo Application</h1>
+      <div className="navbar">Todo Application</div>
       <AddTodo />
       <TodoList />
     </div>

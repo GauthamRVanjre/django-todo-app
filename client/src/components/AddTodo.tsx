@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { CREATE_TODO, GET_TODOS } from "../queries/queries";
+import "../App.css";
 
 const AddTodo: React.FC = () => {
   const [title, setTitle] = useState<string>("");
@@ -21,22 +22,24 @@ const AddTodo: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h3>Add Todo</h3>
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Title"
-        required
-      />
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Description"
-      />
-      <button type="submit">Add Todo</button>
-    </form>
+    <div className="add-todo">
+      <form onSubmit={handleSubmit}>
+        <h3>Add Todo</h3>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Title"
+          required
+        />
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Description"
+        />
+        <button type="submit">Add Todo</button>
+      </form>
+    </div>
   );
 };
 

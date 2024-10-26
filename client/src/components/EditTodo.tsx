@@ -4,7 +4,7 @@ import { useMutation } from "@apollo/client";
 import { UPDATE_TODO, GET_TODOS } from "../queries/queries";
 
 interface EditTodoProps {
-  id: number;
+  id: string;
   currentTitle: string;
   currentDescription: string;
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,17 +16,19 @@ const EditTodo: React.FC<EditTodoProps> = ({
   currentDescription,
   onClose,
 }) => {
+  const updatedId = Number(id);
   const [title, setTitle] = useState(currentTitle);
   const [description, setDescription] = useState(currentDescription);
 
   const [updateTodo] = useMutation(UPDATE_TODO, {
     refetchQueries: [{ query: GET_TODOS }],
   });
+  console.log(updateTodo);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     updateTodo({
-      variables: { id, title, description },
+      variables: { id: updatedId, title, description, completed: false },
     });
     onClose(true);
   };

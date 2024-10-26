@@ -36,10 +36,11 @@ class UpdateTodoMutation(graphene.Mutation):
         title = graphene.String()
         description = graphene.String()
         completed = graphene.Boolean()
-
+        
     todo = graphene.Field(TodoType)
 
     def mutate(self, info, id, title=None, description=None, completed=None):
+        print("received", id, title, description)
         todo = Todo.objects.get(pk=id)
         if title:
             todo.title = title
