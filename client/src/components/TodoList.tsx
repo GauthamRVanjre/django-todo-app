@@ -1,17 +1,26 @@
+// src/components/TodoList.js
+import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_TODOS } from "../queries/queries";
 import { TodoType } from "../types";
 import DeleteTodo from "./DeleteTodo";
 import EditTodo from "./EditTodo";
 import "../App.css";
-import { useState } from "react";
 
 const TodoList = () => {
   const { loading, error, data } = useQuery(GET_TODOS);
-  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingTodo, setEditingTodo] = useState<TodoType | null>(null);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
+
+  const handleEditClick = (todo: TodoType) => {
+    setEditingTodo(todo);
+  };
+
+  const closeEditModal = () => {
+    setEditingTodo(null);
+  };
 
   return (
     <div className="todo-list">
@@ -23,19 +32,21 @@ const TodoList = () => {
           </div>
           <p>{todo.description}</p>
           <div className="todo-actions">
-            <button onClick={() => setEditingId(todo.id)}>Edit</button>
+            <button onClick={() => handleEditClick(todo)}>Edit</button>
             <DeleteTodo id={todo.id} />
-            {editingId === todo.id && (
-              <EditTodo
-                id={todo.id}
-                currentTitle={todo.title}
-                currentDescription={todo.description}
-                onClose={() => setEditingId(null)}
-              />
-            )}
           </div>
         </div>
       ))}
+
+      {/* Render Edit Modal when editingTodo is set */}
+      {editingTodo && (
+        <EditTodo
+          id={editingTodo.id}
+          currentTitle={editingTodo.title}
+          currentDescription={editingTodo.description}
+          onClose={closeEditModal}
+        />
+      )}
     </div>
   );
 };
